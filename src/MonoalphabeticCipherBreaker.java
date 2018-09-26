@@ -4,10 +4,10 @@ import java.util.HashMap;
 public class MonoalphabeticCipherBreaker {
 
     private HashMap<Character, Character> cipherKey = new HashMap<>();
-    //there is probably a better way to do this - but I hard coded the mappings of characters
-    //I didn't want to convert any digits or special characters so they are mapped to themselves.
-    private char keys[] = {'&','*',';','/',':','\'',')','(','"','$','-','0','1','2','3','4','5','6','7','8','9',',','.','\r',' ','?','!','\n','\t','A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-    private char values[] = {'&','*',';','/',':','\'',')','(','"','$','-','0','1','2','3','4','5','6','7','8','9',',','.','\r',' ','?','!','\n','\t','m', 'j', 'b', 'l', 't', 'y', 'a', 'h', 'w', 's', 'u', 'c', 'i', 'o', 'f', 'e', 'r', 'p', 'q', 'd', 'n', 'x', 'v', 'k', 'z', 'g'};
+     //build two arrays to eventually build the map of keys/values
+    //if there is a better way to do this please let me know!
+    private char keys[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+    private char values[] = {'m', 'j', 'b', 'l', 't', 'y', 'a', 'h', 'w', 's', 'u', 'c', 'i', 'o', 'f', 'e', 'r', 'p', 'q', 'd', 'n', 'x', 'v', 'k', 'z', 'g'};
 
     public MonoalphabeticCipherBreaker() {
 
@@ -22,11 +22,17 @@ public class MonoalphabeticCipherBreaker {
             cipherKey.put(keys[i], values[i]);
         }
         try{
-            inputStream = new FileReader("C:\\Users\\63aultyl\\IdeaProjects\\MonoCipherProject\\files\\encypted.txt");
-            outputStream = new FileWriter("C:\\Users\\63aultyl\\IdeaProjects\\MonoCipherProject\\files\\decrypted.txt");
+            inputStream = new FileReader("input file path here");
+            outputStream = new FileWriter("output file path here");
             while((c = inputStream.read()) != -1){
                 char key = (char) c;
-                outputStream.write(cipherKey.get(key));
+                //check if a letter - don't want to convert digits, special characters, punctuation, etc.
+               if(key>='A' && key<='Z') {
+                    outputStream.write(cipherKey.get(key));
+                }
+                else{
+                    outputStream.write(c);
+                }
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
